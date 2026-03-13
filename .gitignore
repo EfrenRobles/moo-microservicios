@@ -1,0 +1,20 @@
+# Gradle
+.gradle/
+build/
+!**/src/**/build/
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Moo VM & Local
+*.log
+moo-vm/temp/
