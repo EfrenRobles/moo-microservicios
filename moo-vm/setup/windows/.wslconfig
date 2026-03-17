@@ -1,0 +1,22 @@
+[wsl2]
+# 4GB es el mínimo funcional para correr 4 microservicios + Docker + K3s
+memory=4GB 
+#
+# Deja al menos 2 núcleos libres para que el ratón y Teams sigan moviéndose
+processors=6
+#
+# Hace que WSL y Windows compartan la misma IP de localhost
+networkingMode=mirrored
+#
+# Un swap de 20GB en un SSD moderno es aceptable como "extensión" de RAM
+swap=20GB
+#
+[experimental]
+# Recupera RAM de forma agresiva
+autoMemoryReclaim=gradual
+#
+# Optimiza el uso de CPU cuando WSL está inactivo
+# idleManager=true
+#
+# Crucial para que el archivo .vhdx no crezca hasta el infinito
+# sparseVhd=true
