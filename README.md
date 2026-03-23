@@ -6,7 +6,7 @@
 
 ---
 
-## 🛠️ Infraestructura "Invisible"
+## Infraestructura "Invisible"
 
 Este proyecto utiliza una capa de abstracción sobre **WSL2** (Windows) o **Linux nativo** para garantizar que el entorno de desarrollo sea idéntico al de producción, eliminando dependencias de software comercial o licencias restrictivas.
 
@@ -18,7 +18,7 @@ Este proyecto utiliza una capa de abstracción sobre **WSL2** (Windows) o **Linu
 
 ---
 
-## 🚦 Pre-requisitos
+## Pre-requisitos
 
 Para que el orquestador `moo.sh` realice la provisión automática, asegúrate de cumplir con lo siguiente:
 
@@ -27,16 +27,16 @@ Para que el orquestador `moo.sh` realice la provisión automática, asegúrate d
 2.  **Terminal:** Ejecuta los comandos desde **Git Bash** con permisos de administrador (requerido solo la primera vez para configurar la distro y el archivo `.wslconfig`).
 3.  **WSL2:** Asegúrate de tener el kernel de WSL actualizado (`wsl --update`).
 
-### Linux
+### Todo: //Linux
 1. **Git & Curl:** Instalados mediante tu gestor de paquetes.
 2. **Docker Engine** (El script intentará configurarlo por ti).
 
-### macOS
+### Todo: //macOS
 1. **Git:** Instalado vía `brew` o tu gestor de paquetes.
 2. **Docker Colima:** (El script intentará configurarlo por ti).
 ---
 
-## 🚀 Inicio Rápido (The "Moo" Way)
+## Inicio Rápido (The "Moo" Way)
 
 1.  **Clona el repositorio:**
     ```
@@ -53,12 +53,27 @@ Para que el orquestador `moo.sh` realice la provisión automática, asegúrate d
     ```
     *Nota: Si es una instalación limpia en Windows, es posible que el script te solicite reiniciar la terminal o ejecutar `wsl --shutdown` para aplicar los cambios de Systemd.*
 
-3.  **Compilación Efímera:**
+3.  **Todo: //Compilación Efímera:**
     Construye tus microservicios utilizando un contenedor de Java 25. El artefacto final se genera sin ensuciar tu sistema host.
     ```
       bash
       ./moo.sh build [nombre-servicio]
     ```
+
+## Estructura del Proyecto (Monorepo)
+
+El repositorio está organizado como un proyecto multi-módulo de Gradle:
+
+* **`moo-auth/`, `moo-users/`**: Dominios principales. Cada uno dividido en `-api`, `-client` y `-service` para máxima desacoplación.
+* **`moo-gateway/`**: Punto de entrada único al ecosistema.
+* **`moo-commons/`**: Librerías transversales (Logging, JPA, Seguridad, Feign).
+* **`buildSrc/`**: Lógica de construcción centralizada (Kotlin DSL) para garantizar versiones uniformes de Java 25 y Spring Boot 4.
+* **`moo-vm/`**: Orquestador del entorno local. Contiene los scripts de setup (`moo.sh`), configuraciones de Docker, K8s y Helm.
+
+## Contenedores de dockers integrados en moo-vm
+* **'postgres18'
+* **'ollama + qwen2.5-coder:1.5b' Agente de IA para el code generation y un simple chat, tal vez se pueda incrementar a 3b.
+
 
 ## Notas de Seguridad y Rendimiento
 

@@ -1,0 +1,240 @@
+########################################################################################################################
+# Usage:
+#
+# docker compose up -d
+# docker compose restart
+# docker compose stop
+#
+# Optional: use Makefile targets (make up, make stop) or the interactive menu.
+########################################################################################################################
+
+services:
+
+  ######################################################################################################################
+  # PostgreSQL 18
+  ######################################################################################################################
+  postgres18:
+    image: postgres:18
+    container_name: postgres18
+    environment:
+      POSTGRES_DB: moo
+      POSTGRES_USER: moo
+      POSTGRES_PASSWORD: moo
+      # Forzamos los datos a una subcarpeta específica dentro del volumen
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - moo-postgres-data:/var/lib/postgresql/data # Usamos un nombre, no un path
+    networks:
+      - moo-network-dev
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U moo -d moo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ######################################################################################################################
+  # RabbitMQ 4.0 - Enterprise Message Broker (AWS SQS/SNS Compatible via Binder)
+  ######################################################################################################################
+#  rabbitmq:
+#    image: rabbitmq:4.0-management-alpine
+#    container_name: rabbitmq-moo
+#    ports:
+#      - "5672:5672"   # Protocolo AMQP
+#      - "15672:15672" # Management UI
+#    environment:
+#      RABBITMQ_DEFAULT_USER: moo
+#      RABBITMQ_DEFAULT_PASS: moo
+#    networks:
+#      - moo-network-dev
+
+  ######################################################################################################################
+  # OpenLDAP AD-like Directory
+  ######################################################################################################################
+#  openldap:
+#    image: openldap-from-source
+#    build:
+#      context: ./openldap
+#    container_name: openldap-adlike
+#    ports:
+#      - "389:389"
+#    environment:
+#      LDAP_LOG_LEVEL: "256"        # Optional: enable more verbose logging
+#    volumes:
+#      - ldap_data:/usr/local/var/openldap-data
+#    networks:
+#      - moo-network-dev
+
+  ######################################################################################################################
+  # Dozzle (Container Log Viewer)
+  ######################################################################################################################
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: dozzle
+    ports:
+      - "9999:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - moo-network-dev
+
+  ######################################################################################################################
+  # Jenkins: Automation Server
+  ######################################################################################################################
+#  jenkins:
+#    build: ./jenkins # Apunta al Dockerfile de arriba
+#    container_name: jenkins-moo
+#    ports:
+#      - "8888:8080"
+#      - "50000:50000"
+#    environment:
+#      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+#      - CASC_JENKINS_CONFIG=/var/jenkins_home/casc_configs/jenkins.yaml
+#    volumes:
+#      - ./jenkins/jenkins_home:/var/jenkins_home
+#      - ./jenkins/casc_configs:/var/jenkins_home/casc_configs:ro
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - ../:/workspace:ro # Mapeamos todo el monorepo para que Jenkins lo vea
+#    networks:
+#      - moo-network-dev
+
+  ######################################################################################################################
+  # Redis: High Performance Cache
+  ######################################################################################################################
+#  redis:
+#    image: redis:7.4-alpine
+#    container_name: redis-moo
+#    ports:
+#      - "6379:6379"
+#    volumes:
+#      - ./redis/data:/data
+#      - ./redis/config:/usr/local/etc/redis
+#    networks:
+#      - moo-network-dev
+#    # Comando para que use un archivo de config si existe
+#    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+
+  ######################################################################################################################
+  # Vault: Secret Management
+  ######################################################################################################################
+#  vault:
+#    image: hashicorp/vault:1.18
+#    container_name: vault-moo
+#    # Cambia esto temporalmente para que no se reinicie infinito mientras debugueamos
+#    restart: "no"
+#    ports:
+#      - "8200:8200"
+#    environment:
+#      VAULT_TOKEN: "moo-root-token"
+#      VAULT_ADDR: "http://127.0.0.1:8200"
+#    volumes:
+#      - ./vault/data:/vault/file
+#      - ./vault/config:/vault/config
+#    cap_add:
+#      - IPC_LOCK
+#    networks:
+#      - moo-network-dev
+#    # Usamos la ruta absoluta al binario
+#    command: ["vault", "server", "-config=/vault/config/vault.hcl"]
+#    healthcheck:
+#      test: ["CMD", "vault", "status", "-address=http://127.0.0.1:8200"]
+#      interval: 10s # Más tiempo
+#      timeout: 5s
+#      retries: 5
+#      start_period: 10s # Dale tiempo a arrancar antes de marcarlo como "unhealthy"
+
+  ######################################################################################################################
+  # Vault: Provisioner (Configuración Automática de Secretos)
+  ######################################################################################################################
+#  vault-provisioner:
+#    image: hashicorp/vault:1.18
+#    container_name: vault-provisioner
+#    networks:
+#      - moo-network-dev
+#    depends_on:
+#      vault:
+#        condition: service_healthy
+#    environment:
+#      VAULT_ADDR: "http://vault-moo:8200"
+#      VAULT_TOKEN: "moo-root-token"
+#    entrypoint: [ "/bin/sh", "-c" ]
+#    command:
+#      - |
+#        echo "Esperando a que Vault esté listo para el provisioning..."
+#        sleep 5;
+#        echo "Autenticando..."
+#        export VAULT_ADDR="http://vault-moo:8200"
+#
+#        echo "Habilitando motor de secretos KV-V2..."
+#        # El '|| true' evita que el contenedor falle si el motor ya existe
+#        vault secrets enable -path=secret kv-v2 || true
+#
+#        echo "Cargando secretos base para moo-microservices..."
+#        vault kv put secret/moo-microservices/common \
+#            spring.datasource.username="moo" \
+#            spring.datasource.password="moo" \
+#            spring.datasource.url="jdbc:postgresql://postgres18:5432/moo" \
+#            spring.redis.host="redis-moo" \
+#            spring.redis.port="6379"
+#
+#        echo "Vault-Provisioner: Configuración completada con éxito."
+
+  ######################################################################################################################
+  # Ollama: Local LLM Engine (Motor de IA - Versión Light)
+  ######################################################################################################################
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama-moo
+    restart: unless-stopped
+    ports:
+      - "8079:11434" # Mapeo: Acceso externo por 8079 -> Interno 11434
+    volumes:
+      - ./ollama/data:/root/.ollama
+    networks:
+      - moo-network-dev
+    healthcheck:
+      # El comando interno sigue siendo el mismo, Ollama escucha en 11434 dentro del contenedor
+      test: ["CMD-SHELL", "ollama list || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ######################################################################################################################
+  # Ollama: Provisioner
+  ######################################################################################################################
+  ollama-provisioner:
+    image: curlimages/curl:latest
+    container_name: ollama-provisioner
+    networks:
+      - moo-network-dev
+    depends_on:
+      ollama:
+        condition: service_healthy
+    entrypoint: [ "/bin/sh", "-c" ]
+    command:
+      - |
+        echo "Descargando qwen2.5-coder:1.5b..."
+        # Usamos 'ollama-moo' porque es el container_name
+        curl -X POST http://ollama-moo:11434/api/pull -d '{"name": "qwen2.5-coder:1.5b"}'
+        
+        echo "Cargando modelo en memoria (30 min)..."
+        curl -X POST http://ollama-moo:11434/api/generate -d '{
+          "model": "qwen2.5-coder:1.5b",
+          "keep_alive": 1800
+        }'
+        echo "Moo-VM: IA lista en puerto 8079."
+
+########################################################################################################################
+# Networks
+########################################################################################################################
+networks:
+  moo-network-dev:
+    driver: bridge
+    name: moo-network-dev
+
+########################################################################################################################
+# Volumes
+########################################################################################################################
+volumes:
+  ldap_data:
+  ldap_config:
+  moo-postgres-data:
