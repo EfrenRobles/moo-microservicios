@@ -13,24 +13,20 @@ services:
   ######################################################################################################################
   # PostgreSQL 18
   ######################################################################################################################
-  postgres18:
-    image: postgres:18
-    container_name: postgres18
-    environment:
-      POSTGRES_DB: moo
-      POSTGRES_USER: moo
-      POSTGRES_PASSWORD: moo
-      # Forzamos los datos a una subcarpeta específica dentro del volumen
-      PGDATA: /var/lib/postgresql/data/pgdata
-    volumes:
-      - moo-postgres-data:/var/lib/postgresql/data # Usamos un nombre, no un path
-    networks:
-      - moo-network-dev
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U moo -d moo"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+  # postgres18:
+  #   image: postgres:18
+  #   container_name: postgres18
+  #   environment:
+  #     POSTGRES_DB: moo
+  #     POSTGRES_USER: moo
+  #     POSTGRES_PASSWORD: moo
+  #   networks:
+  #     - moo-network-dev
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U moo -d moo"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
 
   ######################################################################################################################
   # RabbitMQ 4.0 - Enterprise Message Broker (AWS SQS/SNS Compatible via Binder)
@@ -178,51 +174,6 @@ services:
 #
 #        echo "Vault-Provisioner: Configuración completada con éxito."
 
-  ######################################################################################################################
-  # Ollama: Local LLM Engine (Motor de IA - Versión Light)
-  ######################################################################################################################
-  ollama:
-    image: ollama/ollama:latest
-    container_name: ollama-moo
-    restart: unless-stopped
-    ports:
-      - "8079:11434" # Mapeo: Acceso externo por 8079 -> Interno 11434
-    volumes:
-      - ./ollama/data:/root/.ollama
-    networks:
-      - moo-network-dev
-    healthcheck:
-      # El comando interno sigue siendo el mismo, Ollama escucha en 11434 dentro del contenedor
-      test: ["CMD-SHELL", "ollama list || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  ######################################################################################################################
-  # Ollama: Provisioner
-  ######################################################################################################################
-  ollama-provisioner:
-    image: curlimages/curl:latest
-    container_name: ollama-provisioner
-    networks:
-      - moo-network-dev
-    depends_on:
-      ollama:
-        condition: service_healthy
-    entrypoint: [ "/bin/sh", "-c" ]
-    command:
-      - |
-        echo "Descargando qwen2.5-coder:1.5b..."
-        # Usamos 'ollama-moo' porque es el container_name
-        curl -X POST http://ollama-moo:11434/api/pull -d '{"name": "qwen2.5-coder:1.5b"}'
-        
-        echo "Cargando modelo en memoria (30 min)..."
-        curl -X POST http://ollama-moo:11434/api/generate -d '{
-          "model": "qwen2.5-coder:1.5b",
-          "keep_alive": 1800
-        }'
-        echo "Moo-VM: IA lista en puerto 8079."
-
 ########################################################################################################################
 # Networks
 ########################################################################################################################
@@ -237,4 +188,3 @@ networks:
 volumes:
   ldap_data:
   ldap_config:
-  moo-postgres-data:
