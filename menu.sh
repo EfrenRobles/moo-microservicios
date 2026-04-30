@@ -3,20 +3,21 @@
 
 set -e # Detener el script si algo falla
 
-# --- Importación de módulos ---
-[[ -f "./moo-vm/setup/utils.sh" ]] && source ./moo-vm/setup/utils.sh
-[[ -f "./moo-vm/setup/dockers.sh" ]] && source ./moo-vm/setup/dockers.sh
+# --- Importacion de modulos ---
+source ./moo-vm/scripts/common.sh
+source ./moo-vm/moo/$PROJECT_NAME/scripts/utils.sh
+source ./moo-vm/scripts/install.sh
 
 # --- MENÚ PRINCIPAL ---
 
-function show_menu {
+function showMenu {
   clear
-  title_name "  MOO STACK CLI - Java / Spring Boot"
+  titleName "  MOO STACK CLI - Java / Spring Boot"
 
   echo ""
   echo "  1) Instala la VM"
   echo "  2) Enciende la VM"
-  echo "  3) apaga la VM"
+  echo "  3) Apaga la VM"
   echo ""
   echo "  0) Exit"
   echo ""
@@ -24,16 +25,16 @@ function show_menu {
 }
 
 while true; do
-  show_menu
+  showMenu
   read -p "Choose an option: " choice
 
   case $choice in
-    1) setup_env ;;
-    2) echo build_project ;;
-    3) echo clean_project ;;
+    1) installEnv ;;
+    2) logDev runEnv ;;
+    3) logDev shutdownEnv ;;
     0) echo "Exiting..."; exit 0 ;;
     *) echo "Invalid option." ;;
-  esac 
+  esac
 
   pause
 done
