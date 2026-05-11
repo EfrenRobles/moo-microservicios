@@ -5,7 +5,9 @@ set -e
 
 # --- Importacion de modulos ---
 source ./moo-vm/scripts/windows/wsl2.sh
+source ./moo-vm/scripts/windows/shareDrive.sh
 
+# Verifica que wsl tiene acceso a internet
 function networkSetup() {
   logInfo "Verificando Mirrored Networking"
   
@@ -20,6 +22,7 @@ function networkSetup() {
   exit 0
 }
 
+# Hace la configuracion necesaria para el VM_USER
 function userSetup() {
     logInfo "Configurando usuario '$VM_USER' en ${PROJECT_NAME}"
 
@@ -51,7 +54,7 @@ function userSetup() {
 }
 
 # funcion para instalar todo lo necesario para Windows
-function installEnvWin() {
+function windowsInstall() {
   logInfo "Configurando entorno de Windows"
 
   # Vamos a verificar si WSL 2 esta instalado en windows
@@ -63,5 +66,30 @@ function installEnvWin() {
   # Vamos a verificar si hay comunicacion entre windows y wsl
   networkSetup
 
-  logSuccess "Instalacion de  ${PROJECT_NAME} en WSL2 con exito"
+  # Vinculamos el moo-shared.vhdx para persistir informacion en caso de reinstalar o actualizar la vm.
+  shareDriveSetup
+
+  # Instalando dockers
+
+  # Apagamos la WSL 2 para evitar que corra en modo root.
+  wsl2Shutdown
+
+  logSuccess "Instalacion de ${PROJECT_NAME} en WSL2 con exito"
+}
+
+function windowsRun() {
+  logInfo "Ejecutando WSL 2 entorno para windows"
+
+  # Monta el share drive cada vez que se ejecuta la VM
+  shareDriveSetup
+
+  # Arranca ${PROJECT_NAME} en WSL 2 para windows.
+  wsl2Run
+
+}
+
+function windowsShutdown() {
+  logInfo "Apagando entorno de WSL 2 para windows"
+
+  logDev "shutdown"
 }

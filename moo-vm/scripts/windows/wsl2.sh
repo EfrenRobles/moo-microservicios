@@ -11,7 +11,7 @@ WSL_CONFIG_PATH="$USERPROFILE/.wslconfig"
 WSL_SOURCE_CONFIG="moo-vm/scripts/windows/.wslconfig"
 
 # Funcion para descargar e importar la imagen de linux
-function installWslLinux() {
+function installMooUbuntu() {
 
   logInfo "Descargando la imagen de Linux"
   mkdir -p ${ROOT_FOLDER}
@@ -43,7 +43,7 @@ mooUbuntuSetup() {
   if [ "$installed_count" -eq 0 ]; then
     logWarn "No se ha detectado ${PROJECT_NAME}"
 
-    installWslLinux
+    installMooUbuntu
     logInfo "${PROJECT_NAME} ha sido instalado con exito"
 
     return 0
@@ -79,4 +79,15 @@ function wsl2Setup() {
 
   logInfo "Verificar si hay distribuciones de linux instaladas en wsl"
   mooUbuntuSetup
+}
+
+# Arranca wsl en modo terminal
+function wsl2Run() {
+  logInfo "Entrando a ${PROJECT_NAME} via WSL 2, por favor espere"
+  wsl.exe -d ${PROJECT_NAME}
+}
+
+# Apaga la WSL 2 de forma segura
+function wsl2Shutdown() {
+  wsl --shutdown
 }

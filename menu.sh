@@ -5,8 +5,8 @@ set -e # Detener el script si algo falla
 
 # --- Importacion de modulos ---
 source ./moo-vm/scripts/common.sh
-source ./moo-vm/moo/$PROJECT_NAME/scripts/utils.sh
-source ./moo-vm/scripts/install.sh
+source ./moo-vm/$PROJECT_NAME/scripts/utils.sh
+source ./moo-vm/scripts/checkEnv.sh
 
 # --- MENÚ PRINCIPAL ---
 
@@ -29,9 +29,9 @@ while true; do
   read -p "Choose an option: " choice
 
   case $choice in
-    1) installEnv ;;
-    2) logDev runEnv ;;
-    3) logDev shutdownEnv ;;
+    1) checkEnv Install;;
+    2) checkEnv Run ;;
+    3) checkEnv Shutdown ;;
     0) echo "Exiting..."; exit 0 ;;
     *) echo "Invalid option." ;;
   esac

@@ -13,20 +13,20 @@ services:
   ######################################################################################################################
   # PostgreSQL 18
   ######################################################################################################################
-  # postgres18:
-  #   image: postgres:18
-  #   container_name: postgres18
-  #   environment:
-  #     POSTGRES_DB: moo
-  #     POSTGRES_USER: moo
-  #     POSTGRES_PASSWORD: moo
-  #   networks:
-  #     - moo-network-dev
-  #   healthcheck:
-  #     test: ["CMD-SHELL", "pg_isready -U moo -d moo"]
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 5
+  postgres18:
+    image: postgres:18
+    container_name: postgres18
+    environment:
+      POSTGRES_DB: moo
+      POSTGRES_USER: moo
+      POSTGRES_PASSWORD: moo
+    networks:
+      - moo-network-dev
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U moo -d moo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   ######################################################################################################################
   # RabbitMQ 4.0 - Enterprise Message Broker (AWS SQS/SNS Compatible via Binder)
