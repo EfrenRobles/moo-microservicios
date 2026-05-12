@@ -24,7 +24,6 @@ function logError() {
     echo -e "[ERROR] $1";
 }
 
-# Print helper
 function titleName {
   echo ""
   echo "------------------------------------------------------------"
@@ -34,7 +33,7 @@ function titleName {
 
 function pause {
   echo ""
-  read -p "Press ENTER to continue..." dummy
+  read -p "Preciona la tecla ENTER para continuar..." dummy
 }
 
 # Ejecuta comandos dependiendo el tipo de usuario, dependiendo del OS
@@ -45,14 +44,16 @@ runAs() {
 
   case "$OSTYPE" in
     msys*|win32*)
-      wsl.exe -d "$PROJECT_NAME" -u "$USER" sh -c "$CMD"
+      wsl.exe -d "$PROJECT_NAME" -u "$USER" sh -c "$CMD" 
       ;;
     linux-gnu*|darwin*)
+      local SUDO=""
+
       if [ "$USER" = "root" ]; then
-        sudo sh -c "$CMD"
-      else
-        sh -c "$CMD"
+        SUDO="sudo"
       fi
+
+      $SUDO sh -c "$CMD"
       ;;
   esac
 }
@@ -63,7 +64,7 @@ runAsRoot() {
   runAs "root" "$1";
 }
 
-# Ejecuta comandos como moo dependiendo del OS
+# Ejecuta comandos como $VM_MOO dependiendo del OS
 # Uso: runAsMoo "comando"
 runAsMoo()  {
   runAs "moo"  "$1";

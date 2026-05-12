@@ -83,6 +83,7 @@ function wsl2Setup() {
 
 # Arranca wsl en modo terminal
 function wsl2Run() {
+
   logInfo "Entrando a ${PROJECT_NAME} via WSL 2, por favor espere"
   wsl.exe -d ${PROJECT_NAME}
 }

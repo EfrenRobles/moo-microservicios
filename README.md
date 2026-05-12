@@ -102,8 +102,8 @@ Shuru
 
 -----------------------------------------------------------------------
 
-**VHDX 2: moo-data.vhdx (The "State" - Persistent)**
-└── /mnt/moo-data/              <-- Mount Point for VHDX 2
+**VHDX 2: moo-shared.vhdx (The "State" - Persistent)**
+└── /mnt/moo-shared/              <-- Mount Point for VHDX 2
     ├── docker-engine/          <-- Contains all Images, Containers, and Cache
     ├── user-config/
     │   ├── .gitconfig          <-- Shared Git identity
