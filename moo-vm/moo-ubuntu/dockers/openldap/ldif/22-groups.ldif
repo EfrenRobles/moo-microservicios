@@ -1,0 +1,73 @@
+# ---------------------------------------------------------
+# CORPORATE GROUPS & RBAC STRUCTURE
+# ---------------------------------------------------------
+
+# ROLE_ADMIN: Acceso total al ecosistema (Moo Gateway, Vault, Jenkins Admin)
+dn: cn=Administrator,ou=Groups,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: Administrator
+description: INTERNAL-KEY-ROLE-ADMIN
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=John Smith,ou=Users,dc=example,dc=com
+member: cn=Sofia Müller,ou=Users,dc=example,dc=com
+
+# ROLE_DEV: Permisos de lectura/escritura en microservicios y pipelines de desarrollo
+dn: cn=Developer,ou=Groups,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: Developer
+description: INTERNAL-KEY-ROLE-DEV
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=Aarav Sharma,ou=Users,dc=example,dc=com
+member: cn=Igor Smirnov,ou=Users,dc=example,dc=com
+member: cn=Ji-Won Kim,ou=Users,dc=example,dc=com
+
+# ROLE_DEVOPS: Acceso a infraestructura, RabbitMQ Management y Docker Hub
+dn: cn=DevOps,ou=Groups,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: DevOps
+description: INTERNAL-KEY-ROLE-DEVOPS
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=Felipe Oliveira,ou=Users,dc=example,dc=com
+member: cn=Sven Larsson,ou=Users,dc=example,dc=com
+member: cn=Diego Ramos,ou=Users,dc=example,dc=com
+
+# ROLE_DBA: Permisos de gestión sobre PostgreSQL y Redis
+dn: cn=DatabaseAdmin,ou=Groups,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: DatabaseAdmin
+description: INTERNAL-KEY-ROLE-DBA
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=Ahmed Mansour,ou=Users,dc=example,dc=com
+
+# ROLE_PRODUCT: Acceso a métricas de negocio y gestión de productos en el Gateway
+dn: cn=Product,ou=Groups,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: Product
+description: INTERNAL-KEY-ROLE-PRODUCT
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=Amara Okoro,ou=Users,dc=example,dc=com
+member: cn=Elena Rossi,ou=Users,dc=example,dc=com
+
+# ROLE_GUEST: Acceso de solo lectura a documentación (Swagger/OpenAPI)
+dn: cn=Guest,ou=Groups,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: Guest
+description: INTERNAL-KEY-ROLE-GUEST
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=Claire Dubois,ou=Users,dc=example,dc=com
+member: cn=Sarah Jenkins,ou=Users,dc=example,dc=com
+
+# ROLE_SECURITY: Acceso a logs de auditoría y HashiCorp Vault
+dn: cn=Security,ou=Groups,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: Security
+description: INTERNAL-KEY-ROLE-SECURITY
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=Hans Schmidt,ou=Users,dc=example,dc=com

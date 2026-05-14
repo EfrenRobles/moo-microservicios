@@ -1,0 +1,63 @@
+# ============================================================
+#   MS Active Directory-like Schema (Custom)
+#   File: msad.schema
+#   Author: Efren
+# ============================================================
+
+# ============================================================
+#   Custom attributes AD-like
+# ============================================================
+
+attributetype ( 1.3.6.1.4.1.99999.1.1
+    NAME 'samAccountName'
+    DESC 'AD-style Security Account Manager login name'
+    EQUALITY caseIgnoreMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256}
+    SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.99999.1.2
+    NAME 'department'
+    DESC 'Department name'
+    EQUALITY caseIgnoreMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256}
+    SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.99999.1.4
+    NAME 'employeeID'
+    DESC 'Employee ID'
+    EQUALITY caseIgnoreMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{64}
+    SINGLE-VALUE )
+
+# Note: memberOf is not defined here.
+# It is provided by the overlay memberOf.
+
+# ============================================================
+#   ObjectClass AD-like "user"
+# ============================================================
+
+objectclass ( 1.3.6.1.4.1.99999.2.1
+    NAME 'user'
+    DESC 'Active Directory-like user object'
+    SUP organizationalPerson
+    STRUCTURAL
+    MUST ( samAccountName $ cn $ sn )
+    MAY  ( givenName $
+           mail $
+           title $
+           department $
+           co $
+           telephoneNumber $
+           employeeID ) )
+
+# ============================================================
+#  ObjectClass AD-like "group"
+# ============================================================
+
+objectclass ( 1.3.6.1.4.1.4203.999.1
+    NAME 'group'
+    SUP groupOfNames
+    STRUCTURAL
+    DESC 'Alias objectClass for AD compatibility' )

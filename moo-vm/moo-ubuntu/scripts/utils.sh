@@ -69,3 +69,19 @@ runAsRoot() {
 runAsMoo()  {
   runAs "moo"  "$1";
 }
+
+
+# Imprime el banner en el menu
+# Fuente: https://patorjk.com/software/taag/#p=display&f=Lil+Devil&t=Moo&x=none&v=4&h=4&w=80&we=false
+function print_banner() {
+cat << 'EOF'
+           <-. (`-')
+              \(OO )_      .->        .->
+            ,--./  ,-.)(`-')----. (`-')----.
+            |   `.'   |( OO).-.  '( OO).-.  '
+            |  |'.'|  |( _) | |  |( _) | |  |
+            |  |   |  | \|  |)|  | \|  |)|  |
+            |  |   |  |  '  '-'  '  '  '-'  '
+            `--'   `--'   `-----'    `-----'
+EOF
+}

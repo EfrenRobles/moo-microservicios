@@ -3,6 +3,17 @@
 # Detener el script si algo falla
 set -e 
 
+# Cre los directorios para los volumenes utilizados en docker, para la persistencia
+function generateDockerStateVolumes() {
+
+  logInfo "Creando carpetas en el share drive para dockers"
+  mkdir -p $DOCKER_VOLUME/postgres
+  mkdir -p $DOCKER_VOLUME/localstack
+  mkdir -p $DOCKER_VOLUME/rabbitmq
+  mkdir -p $DOCKER_VOLUME/ldap
+}
+
+# Verifica que el sistema operativo se encuentra listo para instalar las tools.
 function verifyIfSystemIsReady() {
   logInfo "Esperando que el sistema se inicialice (checking APT/DPKG locks)..."
   
@@ -36,7 +47,7 @@ function installTools() {
   logInfo "Iniciando la instalacion de las tools"
 
   # Actualizar e instalar dependencias base
-  runAsRoot "apt-get update && apt-get install -y ca-certificates curl gnupg htop"
+  runAsRoot "apt-get update && apt-get install -y ca-certificates curl gnupg htop make"
 
   # Ejecutar el script oficial de Docker
   # (Nota: get.docker.com funciona en casi cualquier distro Linux/WSL)

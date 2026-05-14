@@ -12,8 +12,9 @@ source ./moo-vm/scripts/checkEnv.sh
 
 function showMenu {
   clear
-  titleName "  MOO STACK CLI - Java / Spring Boot"
-
+  titleName "Local Development Environment - Interactive Menu"
+  print_banner
+  titleName "Menu interactivo"
   echo ""
   echo "  1) Instala la VM"
   echo "  2) Enciende la VM"

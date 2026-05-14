@@ -1,0 +1,67 @@
+# ---------------------------------------------------------
+# OAUTH2 / OIDC SCOPES (Granular Access Control)
+# ---------------------------------------------------------
+
+# SCOPE: read - Permiso básico para consultar información.
+dn: cn=read,ou=Scopes,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: read
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=Carlos Ruiz,ou=Users,dc=example,dc=com
+member: cn=Elena Rossi,ou=Users,dc=example,dc=com
+member: cn=Sarah Jenkins,ou=Users,dc=example,dc=com
+member: cn=Fatima Al-Farsi,ou=Users,dc=example,dc=com
+
+# SCOPE: write - Capacidad de crear y actualizar recursos.
+dn: cn=write,ou=Scopes,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: write
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=Aarav Sharma,ou=Users,dc=example,dc=com
+member: cn=Igor Smirnov,ou=Users,dc=example,dc=com
+
+# SCOPE: delete - Permiso crítico para eliminación de datos.
+dn: cn=delete,ou=Scopes,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: delete
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=John Smith,ou=Users,dc=example,dc=com
+
+# SCOPE: openid - Requerido para flujos de identidad OIDC.
+dn: cn=openid,ou=Scopes,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: openid
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=Maria Soto,ou=Users,dc=example,dc=com
+member: cn=Blue Mary,ou=Users,dc=example,dc=com
+
+# SCOPE: message_publish - Permiso específico para enviar mensajes.
+dn: cn=message_publish,ou=Scopes,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: message_publish
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=Ji-Won Kim,ou=Users,dc=example,dc=com
+member: cn=Felipe Oliveira,ou=Users,dc=example,dc=com
+
+# SCOPE: infra_manage - Permiso para interactuar con Docker/Jenkins vía API.
+dn: cn=infra_manage,ou=Scopes,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: infra_manage
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=Sven Larsson,ou=Users,dc=example,dc=com
+member: cn=Diego Ramos,ou=Users,dc=example,dc=com
+
+# SCOPE: vault_read - Acceso a lectura de secretos en HashiCorp Vault.
+dn: cn=vault_read,ou=Scopes,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: vault_read
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=Hans Schmidt,ou=Users,dc=example,dc=com
+member: cn=Sofia Müller,ou=Users,dc=example,dc=com

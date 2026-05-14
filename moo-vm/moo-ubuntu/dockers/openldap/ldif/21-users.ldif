@@ -1,0 +1,360 @@
+# ---------------------------------------------------------
+# CORPORATE INTERNATIONAL DIRECTORY - SIMULATION USERS
+# ---------------------------------------------------------
+
+dn: cn=Aarav Sharma,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Aarav Sharma
+sn: Sharma
+givenName: Aarav
+samAccountName: asharma
+mail: aarav.sharma@example.com
+title: Cloud Architect
+department: Engineering
+co: India
+telephoneNumber: +91 22 1234 5678
+employeeID: 802517001
+userPassword: password
+
+dn: cn=Yuki Tanaka,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Yuki Tanaka
+sn: Tanaka
+givenName: Yuki
+samAccountName: ytanaka
+mail: yuki.tanaka@example.com
+title: Senior QA Engineer
+department: Quality Assurance
+co: Japan
+telephoneNumber: +81 3 9876 5432
+employeeID: 802517002
+userPassword: password
+
+dn: cn=Hans Schmidt,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Hans Schmidt
+sn: Schmidt
+givenName: Hans
+samAccountName: hschmidt
+mail: hans.schmidt@example.com
+title: Security Specialist
+department: Cybersecurity
+co: Germany
+telephoneNumber: +49 30 555 1122
+employeeID: 802517003
+userPassword: password
+
+dn: cn=Elena Rossi,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Elena Rossi
+sn: Rossi
+givenName: Elena
+samAccountName: erossi
+mail: elena.rossi@example.com
+title: UX Designer
+department: Product
+co: Italy
+telephoneNumber: +39 06 000 3322
+employeeID: 802517004
+userPassword: password
+
+dn: cn=Felipe Oliveira,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Felipe Oliveira
+sn: Oliveira
+givenName: Felipe
+samAccountName: foliveira
+mail: felipe.oliveira@example.com
+title: DevOps Engineer
+department: Infrastructure
+co: Brazil
+telephoneNumber: +55 11 9862 1456
+employeeID: 802517005
+userPassword: password
+
+dn: cn=Sarah Jenkins,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Sarah Jenkins
+sn: Jenkins
+givenName: Sarah
+samAccountName: sjenkins
+mail: sarah.jenkins@example.com
+title: HR Business Partner
+department: Human Resources
+co: USA
+telephoneNumber: +1 212 555 0199
+employeeID: 802517006
+userPassword: password
+
+dn: cn=Ahmed Mansour,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Ahmed Mansour
+sn: Mansour
+givenName: Ahmed
+samAccountName: amansour
+mail: ahmed.mansour@example.com
+title: Database Administrator
+department: Engineering
+co: Egypt
+telephoneNumber: +20 2 3344 5566
+employeeID: 802517007
+userPassword: password
+
+dn: cn=Linh Nguyen,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Linh Nguyen
+sn: Nguyen
+givenName: Linh
+samAccountName: lnguyen
+mail: linh.nguyen@example.com
+title: Financial Analyst
+department: Finance
+co: Vietnam
+telephoneNumber: +84 24 1122 3344
+employeeID: 802517008
+userPassword: password
+
+dn: cn=Sven Larsson,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Sven Larsson
+sn: Larsson
+givenName: Sven
+samAccountName: slarsson
+mail: sven.larsson@example.com
+title: Site Reliability Engineer
+department: Infrastructure
+co: Sweden
+telephoneNumber: +46 8 505 2345
+employeeID: 802517009
+userPassword: password
+
+dn: cn=Claire Dubois,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Claire Dubois
+sn: Dubois
+givenName: Claire
+samAccountName: cdubois
+mail: claire.dubois@example.com
+title: Legal Counsel
+department: Legal
+co: France
+telephoneNumber: +33 1 4268 1234
+employeeID: 802517010
+userPassword: password
+
+dn: cn=Priya Patel,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Priya Patel
+sn: Patel
+givenName: Priya
+samAccountName: ppatel
+mail: priya.patel@example.com
+title: Data Scientist
+department: Data & Analytics
+co: Canada
+telephoneNumber: +1 416 555 0122
+employeeID: 802517011
+userPassword: password
+
+dn: cn=Igor Smirnov,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Igor Smirnov
+sn: Smirnov
+givenName: Igor
+samAccountName: ismirnov
+mail: igor.smirnov@example.com
+title: Backend Developer
+department: Engineering
+co: Poland
+telephoneNumber: +48 22 654 3210
+employeeID: 802517012
+userPassword: password
+
+dn: cn=Ji-Won Kim,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Ji-Won Kim
+sn: Kim
+givenName: Ji-Won
+samAccountName: jkim
+mail: jiwon.kim@example.com
+title: System Architect
+department: Engineering
+co: South Korea
+telephoneNumber: +82 2 1111 2222
+employeeID: 802517013
+userPassword: password
+
+dn: cn=Amara Okoro,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Amara Okoro
+sn: Okoro
+givenName: Amara
+samAccountName: aokoro
+mail: amara.okoro@example.com
+title: Product Owner
+department: Product
+co: Nigeria
+telephoneNumber: +234 1 234 5678
+employeeID: 802517014
+userPassword: password
+
+dn: cn=Diego Ramos,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Diego Ramos
+sn: Ramos
+givenName: Diego
+samAccountName: dramos
+mail: diego.ramos@example.com
+title: Network Engineer
+department: Infrastructure
+co: Spain
+telephoneNumber: +34 91 123 4567
+employeeID: 802517015
+userPassword: password
+
+dn: cn=Sofia Müller,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Sofia Müller
+sn: Müller
+givenName: Sofia
+samAccountName: smuller
+mail: sofia.muller@example.com
+title: Release Manager
+department: Engineering
+co: Switzerland
+telephoneNumber: +41 44 123 4455
+employeeID: 802517016
+userPassword: password
+
+dn: cn=John Smith,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: John Smith
+sn: Smith
+givenName: John
+samAccountName: jsmith
+mail: john.smith@example.com
+title: Tech Lead
+department: Engineering
+co: UK
+telephoneNumber: +44 20 7946 0000
+employeeID: 802517017
+userPassword: password
+
+dn: cn=Isabella Silva,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Isabella Silva
+sn: Silva
+givenName: Isabella
+samAccountName: isilva
+mail: isabella.silva@example.com
+title: Scum Master
+department: Engineering
+co: Portugal
+telephoneNumber: +351 21 123 4567
+employeeID: 802517018
+userPassword: password
+
+dn: cn=Chen Wei,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Chen Wei
+sn: Wei
+givenName: Chen
+samAccountName: cwei
+mail: chen.wei@example.com
+title: AI Researcher
+department: Data & Analytics
+co: China
+telephoneNumber: +86 10 1234 5678
+employeeID: 802517019
+userPassword: password
+
+dn: cn=Fatima Al-Farsi,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Fatima Al-Farsi
+sn: Al-Farsi
+givenName: Fatima
+samAccountName: falfarsi
+mail: fatima.alfarsi@example.com
+title: Business Analyst
+department: Finance
+co: UAE
+telephoneNumber: +971 4 555 1234
+employeeID: 802517020
+userPassword: password
+
+dn: cn=Efren Robles,ou=Users,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: Efren Robles
+sn: Robles
+givenName: Efren
+samAccountName: erobles
+mail: efren.robles@example.com
+title: Platform Developer
+department: Engineering
+co: Mexico
+telephoneNumber: +52 686 777 8899
+employeeID: 802517021
+userPassword: password

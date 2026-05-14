@@ -1,0 +1,65 @@
+# ---------------------------------------------------------
+# CORPORATE SYSTEM ROLES (RBAC - Spring Security Ready)
+# ---------------------------------------------------------
+
+# ROLE_ADMIN: Superusuario del sistema. Capacidad de gestionar otros usuarios y configuraciones críticas.
+dn: cn=ROLE_ADMIN,ou=Roles,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: ROLE_ADMIN
+description: ROLE-GLOBAL-ADMINISTRATOR
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=John Smith,ou=Users,dc=example,dc=com
+
+# ROLE_USER: Rol base para cualquier empleado con acceso a la plataforma "Moo".
+dn: cn=ROLE_USER,ou=Roles,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: ROLE_USER
+description: ROLE-STANDARD-USER
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=Aarav Sharma,ou=Users,dc=example,dc=com
+member: cn=Yuki Tanaka,ou=Users,dc=example,dc=com
+member: cn=Elena Rossi,ou=Users,dc=example,dc=com
+member: cn=Maria Soto,ou=Users,dc=example,dc=com
+member: cn=Blue Mary,ou=Users,dc=example,dc=com
+
+# ROLE_SYSTEM_ADMIN: Rol técnico para gestión de infraestructura, Jenkins y Docker.
+dn: cn=ROLE_SYSTEM_ADMIN,ou=Roles,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: ROLE_SYSTEM_ADMIN
+description: ROLE-INFRASTRUCTURE-MANAGER
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=Felipe Oliveira,ou=Users,dc=example,dc=com
+member: cn=Sven Larsson,ou=Users,dc=example,dc=com
+
+# ROLE_AUDITOR: Rol de solo lectura para cumplimiento legal y financiero (Compliance).
+dn: cn=ROLE_AUDITOR,ou=Roles,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: ROLE_AUDITOR
+description: ROLE-READ-ONLY-COMPLIANCE
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=Claire Dubois,ou=Users,dc=example,dc=com
+member: cn=Fatima Al-Farsi,ou=Users,dc=example,dc=com
+
+# ROLE_DEVELOPER: Permisos para interactuar con APIs de desarrollo y Swagger.
+dn: cn=ROLE_DEVELOPER,ou=Roles,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: ROLE_DEVELOPER
+description: ROLE-API-DEVELOPER
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=Igor Smirnov,ou=Users,dc=example,dc=com
+member: cn=Ji-Won Kim,ou=Users,dc=example,dc=com
+member: cn=Sofia Müller,ou=Users,dc=example,dc=com
+
+# ROLE_SECURITY_OFFICER: Gestión de llaves en Vault y auditoría de accesos.
+dn: cn=ROLE_SECURITY_OFFICER,ou=Roles,dc=example,dc=com
+objectClass: group
+objectClass: groupOfNames
+cn: ROLE_SECURITY_OFFICER
+description: ROLE-SECURITY-MANAGER
+member: cn=Efren Robles,ou=Users,dc=example,dc=com
+member: cn=Hans Schmidt,ou=Users,dc=example,dc=com
