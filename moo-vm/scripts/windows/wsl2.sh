@@ -1,94 +1,94 @@
 #!/bin/bash
 
-# Detener el script si algo falla
+# Stop the script if something goes wrong
 set -e 
 
-# Definimos variables con las configuraciones necesarias
+# Setting global constants for WSL
 WSL_LINUX_IMAGE_URL="https://cloud-images.ubuntu.com/wsl/releases/24.04/current/"
 WSL_LINUX_IMAGE_FILE="ubuntu-noble-wsl-amd64-24.04lts.rootfs.tar.gz"
 WSL_IMPORT_FILE="$ROOT_FOLDER/$WSL_LINUX_IMAGE_FILE"
 WSL_CONFIG_PATH="$USERPROFILE/.wslconfig"
 WSL_SOURCE_CONFIG="moo-vm/scripts/windows/.wslconfig"
 
-# Funcion para descargar e importar la imagen de linux
-function installMooUbuntu() {
+# To download and import the Linux image.
+function install_moo_ubuntu() {
 
-  logInfo "Descargando la imagen de Linux"
+  log_info "Downloading the Linux image"
   mkdir -p ${ROOT_FOLDER}
 
   if [ -f "$WSL_IMPORT_FILE" ]; then
-    logInfo "Archivo de la distribucion de linux encontrado en: $WSL_IMPORT_FILE"
+    log_info "Linux distribution file found in: $WSL_IMPORT_FILE"
   else
-    logWarn "Descargando la imagen de linux $WSL_IMPORT_FILE"
+    log_warn "Downloading the Linux image $WSL_IMPORT_FILE"
     curl -L "${WSL_LINUX_IMAGE_URL}/${WSL_LINUX_IMAGE_FILE}" -o "${WSL_IMPORT_FILE}"
   fi
 
   if [ $? -eq 0 ]; then
-    logSuccess "La distro de linux se bajo con exito."
+    log_success "The Linux distro downloaded successfully"
     wsl --import $PROJECT_NAME $ROOT_FOLDER_PROJECT $WSL_IMPORT_FILE
 
   else
-    logError "Error al descargar la distro de Linux"
+    log_error "Error downloading Linux distro"
     return 1
   fi
 }
 
-# Funcion para verificar si WSL2 esta instalado
-mooUbuntuSetup() {
-  # con 2>&1 fuerza que la salida del texto en pantalla se guarde en la variable y
-  # | tr -d '\0' evita mensaje extras como residuos en pantalla.
+# Method to verify if WSL 2 is installed.
+moo_ubuntu_setup() {
+  # with 2>&1 force the text output on the screen to be stored in the variable and
+  # with | tr -d '\0' avoid extra messages like screen residue
   local installed_count=$(wsl.exe -l -v 2>/dev/null | tr -d '\0' | grep -cE "${PROJECT_NAME}")
 
-  # Verifica si PROJECT_NAME esta instalado
+  # Verify if PROJECT_NAME is installed
   if [ "$installed_count" -eq 0 ]; then
-    logWarn "No se ha detectado ${PROJECT_NAME}"
+    log_warn "Not detected ${PROJECT_NAME}"
 
-    installMooUbuntu
-    logInfo "${PROJECT_NAME} ha sido instalado con exito"
+    install_moo_ubuntu
+    log_info "${PROJECT_NAME} has been successfully installed"
 
     return 0
   fi
 
-  logInfo "${PROJECT_NAME} ya se encuentra instalado"
+  log_info "${PROJECT_NAME} is already installed"
 }
 
-# En Git Bash se accede como /c/Users/<Nombre usuario> o mediante $USERPROFILE
-function wslconfigSetup() {
+# In Git Bash it is accessed as /c/Users/<user name> or via $USERPROFILE
+function wslconfig_setup() {
 
-  # Verificar si el archivo origen existe antes de copiar
+  # Verify if the source file exists before copying
   if [ -f "$WSL_SOURCE_CONFIG" ]; then
-      logInfo "Copiando configuración desde $WSL_SOURCE_CONFIG..."
+      log_info "Copying settings from $WSL_SOURCE_CONFIG..."
       cp "$WSL_SOURCE_CONFIG" "$WSL_CONFIG_PATH"
-      logSuccess "Archivo .wslconfig se a copiado exitosamente."
+      log_success "The file .wslconfig has been successfully copied."
   else
-      logError "Error: No se encontró el archivo de origen en $WSL_SOURCE_CONFIG"
+      log_error "Error: The source file was not found in $WSL_SOURCE_CONFIG"
       return 1
   fi
 }
 
-# Verifica que WSL 2 este instalado en windows.
-function wsl2Setup() {
+# Verify that WSL2 is installed on Windows
+function wsl2_setup() {
 
   if ! command -v wsl.exe &> /dev/null; then
-    logError "WSL no está instalado en este sistema."
+    log_error "WSL is not installed on the system"
     return 1
   fi
 
-  logInfo "Actualizando el archivo de configuracion en Windows"
-  wslconfigSetup
+  log_info "Updating the settings file in Windows"
+  wslconfig_setup
 
-  logInfo "Verificar si hay distribuciones de linux instaladas en wsl"
-  mooUbuntuSetup
+  log_info "Check if there are Linux distro installed on WSL"
+  moo_ubuntu_setup
 }
 
-# Arranca wsl en modo terminal
-function wsl2Run() {
+# Run WSL2 in terminal mode
+function wsl2_run() {
 
-  logInfo "Entrando a ${PROJECT_NAME} via WSL 2, por favor espere"
+  log_info "Entering ${PROJECT_NAME} via WSL2, please wait"
   wsl.exe -d ${PROJECT_NAME}
 }
 
-# Apaga la WSL 2 de forma segura
-function wsl2Shutdown() {
+# Safely shutdown WSL2
+function wsl2_shutdown() {
   wsl --shutdown
 }

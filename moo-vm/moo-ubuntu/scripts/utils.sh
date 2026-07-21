@@ -1,30 +1,30 @@
 #!/bin/bash
 
-# Detener el script si algo falla
+# Stop the script if something goes wrong
 set -e 
 
-# Para imprimir mensajes en pantall
-function logDev() {
+# To print messages on screen
+function log_dev() {
     echo -e "[TODO] $1";
 }
 
-function logInfo() {
+function log_info() {
     echo -e "[INFO] $1";
 }
 
-function logWarn() {
+function log_warn() {
     echo -e "[WARN] $1";
 }
 
-function logSuccess() {
+function log_success() {
     echo -e "[SUCCESS] $1";
 }
 
-function logError() {
+function log_error() {
     echo -e "[ERROR] $1";
 }
 
-function titleName {
+function title_name {
   echo ""
   echo "------------------------------------------------------------"
   echo -e "$1"
@@ -33,12 +33,12 @@ function titleName {
 
 function pause {
   echo ""
-  read -p "Preciona la tecla ENTER para continuar..." dummy
+  read -p "Press ENTER to continue" dummy
 }
 
-# Ejecuta comandos dependiendo el tipo de usuario, dependiendo del OS
-# Uso: runAs "user" "comando"
-runAs() {
+# Executes commands depending on the user type
+# Use: run_as "user" "command"
+run_as() {
   local USER="$1"
   local CMD="$2"
 
@@ -58,21 +58,20 @@ runAs() {
   esac
 }
 
-# Ejecuta comandos como root dependiendo del OS
-# Uso: runAsRoot "comando"
-runAsRoot() {
-  runAs "root" "$1";
+# Executes commands as Root
+# Uso: run_as_root "command"
+run_as_root() {
+  run_as "root" "$1";
 }
 
-# Ejecuta comandos como $VM_MOO dependiendo del OS
-# Uso: runAsMoo "comando"
-runAsMoo()  {
-  runAs "moo"  "$1";
+# Executes commands as $VM_MOO
+# Uso: run_as_moo "command"
+run_as_moo()  {
+  run_as "moo" "$1";
 }
 
-
-# Imprime el banner en el menu
-# Fuente: https://patorjk.com/software/taag/#p=display&f=Lil+Devil&t=Moo&x=none&v=4&h=4&w=80&we=false
+# Print the menus banner
+# Source: https://patorjk.com/software/taag/#p=display&f=Lil+Devil&t=Moo&x=none&v=4&h=4&w=80&we=false
 function print_banner() {
 cat << 'EOF'
            <-. (`-')

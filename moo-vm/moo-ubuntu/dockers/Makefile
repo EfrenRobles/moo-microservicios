@@ -25,7 +25,7 @@ SQS_URL=http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/my-que
 up:
 	docker compose up -d
 	@echo "Arrancando todos los servicios"
-	docker exec -it $(LOCALSTACK_CONTAINER) bash /localstack/init-localstack.sh
+	docker exec -it $(LOCALSTACK_CONTAINER) bash /localstack/init_localstack.sh
 
 # Detiene todos los servicios
 down:

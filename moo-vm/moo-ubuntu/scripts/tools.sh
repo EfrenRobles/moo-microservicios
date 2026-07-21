@@ -1,64 +1,64 @@
 #!/bin/bash
 
-# Detener el script si algo falla
+# Stop the script if something goes wrong
 set -e 
 
-# Cre los directorios para los volumenes utilizados en docker, para la persistencia
-function generateDockerStateVolumes() {
+# Create directories for Docker's volumes.
+function generate_docker_state_volumes() {
 
-  logInfo "Creando carpetas en el share drive para dockers"
+  log_info "Creating folders on docker's share folder"
   mkdir -p $DOCKER_VOLUME/postgres
   mkdir -p $DOCKER_VOLUME/localstack
   mkdir -p $DOCKER_VOLUME/rabbitmq
   mkdir -p $DOCKER_VOLUME/ldap
 }
 
-# Verifica que el sistema operativo se encuentra listo para instalar las tools.
-function verifyIfSystemIsReady() {
-  logInfo "Esperando que el sistema se inicialice (checking APT/DPKG locks)..."
-  
-  # Usar pgrep es mas seguro porque no requiere la instalacion de herramientas adicionales.
-  # Comprueba si algun proceso de apt o dpkg se esta ejecutando.
+# Verify if OS is ready to install tools.
+function verify_if_system_is_ready() {
+  log_info "Waiting for the system to initialize (checking APT/DPKG locks)"
+
+  # Using pgrep is safer because it does not require installing additional tools.
+  # Check if any apt or dpkg processes are running
   while pgrep -x "apt|apt-get|dpkg" >/dev/null 2>&1; do
-    logInfo "Sistema ocupado (apt/dpkg en ejecución). Reintentando en 2 segundos..."
+    log_info "System busy (apt/dpkg running). Retrying in 2 seconds"
     sleep 2
   done
 
-  # Doble verificacion: Comprobar la existencia de archivos de bloqueo por si acaso
-  # Verificamos si los archivos de bloqueo no estan vacios, lo que a veces indica un bloqueo activo.
-  while [ -f /var/lib/apt/lists/lock ] && runAsRoot "lsof /var/lib/apt/lists/lock" >/dev/null 2>&1; do
-    logInfo "El archivo de bloqueo aún está activo. Esperando..."
+  # Verify if the lock files are not empty, which sometimes indicates an active lock
+  while [ -f /var/lib/apt/lists/lock ] && run_as_root "lsof /var/lib/apt/lists/lock" >/dev/null 2>&1; do
+    log_info "The lock file is still active, please wait"
     sleep 2
   done
 
-  logSuccess "El sistema se ha inicializado con exito"
+  log_success "The system has been successfully initialized"
 }
 
-# Instalación universal de Docker Engine
-function installTools() {
+# Docker engine universal installation
+function install_tools() {
 
-  logInfo "Verificamos si las tools ya estan instaladas"
-  if runAsRoot "command -v docker" >/dev/null 2>&1; then
-    logSuccess "Las tools ya está instalado."
+  log_info "Verify if the tools are already installed"
+  if run_as_root "command -v docker" >/dev/null 2>&1; then
+    log_success "The tools are already installed."
 
     return 0
   fi
 
-  logInfo "Iniciando la instalacion de las tools"
+  log_info "Starting the tools installation"
 
-  # Actualizar e instalar dependencias base
-  runAsRoot "apt-get update && apt-get install -y ca-certificates curl gnupg htop make"
+  # Update and install base dependnecies
+  run_as_root "apt-get update && apt-get install -y ca-certificates curl gnupg htop make"
 
-  # Ejecutar el script oficial de Docker
-  # (Nota: get.docker.com funciona en casi cualquier distro Linux/WSL)
-  logInfo "Instalando dockers"
-  runAsRoot "curl -fsSL https://get.docker.com | sh"
+  # Run the official docker script
+  # (Note: get.docker.com works on almost any Linux/WSL distro)
+  log_info "Installing dockers"
+  run_as_root "curl -fsSL https://get.docker.com | sh"
 
-  logInfo "Configurando permisos y socket temporal"
-  runAsRoot "usermod -aG docker $USER"
+  log_info "Configurando permisos y socket temporal"
+  log_info "Setting permissions and temporal sockets"
+  run_as_root "usermod -aG docker $USER"
 
-  # Temporal fix para evitar el problema con los permisos, el sistema hace undo al reiniciar.
-  runAsRoot "chmod 666 /var/run/docker.sock"
+  # Temporary fix to avoid permission issues because the system undoes upon restart.
+  run_as_root "chmod 666 /var/run/docker.sock"
 
-  logSuccess "Las tools se han instalado correctamente."
+  log_success "The tools have been installaed correctly"
 }

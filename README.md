@@ -1,6 +1,6 @@
 # Moo Microservices - High Performance Specialization
 
-**Ecosistema modular de microservicios** diseñado para alta eficiencia, basado en **Java 25**, **Spring Boot 4** , **Gradle 10** y arquitectura de **Monorepo**.
+**Ecosistema modular de microservicios** diseñado para alta eficiencia, basado en **Java**, **Spring Boot** , **Gradle** y arquitectura de **Monorepo**.
 
 > **Filosofía del Proyecto: Host Inmaculado.** No instalamos Java, Gradle ni Docker Desktop en tu sistema operativo base. Todo el ciclo de vida (Build, Test, Run) ocurre de forma efímera y aislada en contenedores.
 
@@ -12,7 +12,7 @@ Este proyecto utiliza una capa de abstracción sobre **WSL2** (Windows) o **Linu
 
 * **Runtime:** Docker Engine GPL (Nativo, sin Docker Desktop).
 * **Orquestación:** Systemd activo dentro de la sandbox de WSL2 (Windows).
-* **Build System:** Agentes efímeros de **Java 25** + **Gradle 10**.
+* **Build System:** Agentes efímeros de **Java** + **Gradle**.
 * **Networking:** Modo *Mirrored* para baja latencia y compatibilidad total con VPNs empresariales.
 * **Persistencia:** Volumen de caché global para dependencias de Gradle (optimización de ancho de banda).
 
@@ -52,7 +52,7 @@ Para que el orquestador `menu.sh` realice la provisión automática, asegúrate 
     ```
 
 3.  **Todo: //Compilación Efímera:**
-    Construye los microservicios utilizando un contenedor de Java 25. El artefacto final se genera sin ensuciar tu sistema host.
+    Construye los microservicios utilizando un contenedor de Java. El artefacto final se genera sin ensuciar tu sistema host.
     (servicio de jenkins pendiente)
 
 ## Estructura del Proyecto (Monorepo)
@@ -62,12 +62,12 @@ El repositorio está organizado como un proyecto multi-módulo de Gradle:
 * **`moo-auth/`, `moo-users/`**: Dominios principales. Cada uno dividido en `-api`, `-client` y `-service` para máxima desacoplación.
 * **`moo-gateway/`**: Punto de entrada único al ecosistema.
 * **`moo-commons/`**: Librerías transversales (Logging, JPA, Flyway, Feign, etc).
-* **`buildSrc/`**: Lógica de construcción centralizada (Kotlin DSL) para garantizar versiones uniformes de Java 25 y Spring Boot 4.
+* **`buildSrc/`**: Lógica de construcción centralizada (Kotlin DSL) para garantizar versiones uniformes de Java y Spring Boot.
 * **`moo-vm/`**: Orquestador del entorno local. Contiene los scripts de setup (`menu.sh`), configuraciones de Docker, Jenins, etc.
 
 ## Contenedores de dockers integrados en moo-vm
-* **'PostgreSQL 18'**
-* **'RabbitMQ 4.0 - Enterprise Message Broker (AWS SQS/SNS Compatible via Binder)'**
+* **'PostgreSQL '**
+* **'RabbitMQ - Enterprise Message Broker (AWS SQS/SNS Compatible via Binder)'**
 * **'OpenLDAP AD-like Directory'**
 * **'Dozzle (Container Log Viewer)'**
 * **'Jenkins: Automation Server'**
@@ -103,7 +103,7 @@ Shuru
 -----------------------------------------------------------------------
 
 **VHDX 2: moo-shared.vhdx (The "State" - Persistent)**
-└── /mnt/moo-shared/              <-- Mount Point for VHDX 2
+└── /mnt/moo-shared/            <-- Mount Point for VHDX 2
     ├── docker-engine/          <-- Contains all Images, Containers, and Cache
     ├── user-config/
     │   ├── .gitconfig          <-- Shared Git identity

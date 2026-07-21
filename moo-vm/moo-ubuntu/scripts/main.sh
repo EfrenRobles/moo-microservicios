@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Detener el script si algo falla
+# Stop the script if something goes wrong
 set -e 
 
-# --- Importacion de modulos ---
+# --- Importing modules ---
 source ~/init.done
 source ~/$PROJECT_NAME/scripts/common.sh
 source ~/$PROJECT_NAME/scripts/utils.sh
@@ -11,12 +11,12 @@ source ~/$PROJECT_NAME/scripts/tools.sh
 
 function main() {
 
-  verifyIfSystemIsReady
-  installTools
-  generateDockerStateVolumes
+  verify_if_system_is_ready
+  install_tools
+  generate_docker_state_volumes
 }
 
-# Ejecutamos la funcion principal
+# To run the main function
 main
 
-source ~/$PROJECT_NAME/dockers/devMenu.sh
+source ~/$PROJECT_NAME/dockers/dev_menu.sh

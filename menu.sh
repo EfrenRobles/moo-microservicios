@@ -1,24 +1,25 @@
 #!/bin/bash
-# Moo CLI - Abstracción de infraestructura
+# Moo CLI - Infrastructure absrraction
 
-set -e # Detener el script si algo falla
+# Stop the script if something goes wrong
+set -e
 
-# --- Importacion de modulos ---
+# --- Importing modules ---
 source ./moo-vm/scripts/common.sh
 source ./moo-vm/$PROJECT_NAME/scripts/utils.sh
-source ./moo-vm/scripts/checkEnv.sh
+source ./moo-vm/scripts/check_env.sh
 
-# --- MENÚ PRINCIPAL ---
+# --- MAIN MENU ---
 
-function showMenu {
+function show_menu {
   clear
-  titleName "Local Development Environment - Interactive Menu"
+  title_name "Local Development Environment - Interactive Menu"
   print_banner
-  titleName "Menu interactivo"
+  title_name "Interactive Menu"
   echo ""
-  echo "  1) Instala la VM"
-  echo "  2) Enciende la VM"
-  echo "  3) Apaga la VM"
+  echo "  1) VM install"
+  echo "  2) VM turn on"
+  echo "  3) VM shutdown"
   echo ""
   echo "  0) Exit"
   echo ""
@@ -26,13 +27,13 @@ function showMenu {
 }
 
 while true; do
-  showMenu
+  show_menu
   read -p "Choose an option: " choice
 
   case $choice in
-    1) checkEnv Install;;
-    2) checkEnv Run ;;
-    3) checkEnv Shutdown ;;
+    1) check_env _install;;
+    2) check_env _run ;;
+    3) check_env _shutdown ;;
     0) echo "Exiting..."; exit 0 ;;
     *) echo "Invalid option." ;;
   esac

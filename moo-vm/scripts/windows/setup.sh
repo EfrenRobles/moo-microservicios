@@ -1,101 +1,99 @@
 #!/bin/bash
 
-# Detener el script si algo falla
+# Stop the script if something goes wrong
 set -e 
 
-# --- Importacion de modulos ---
+# --- Importing modules ---
 source ./moo-vm/scripts/windows/wsl2.sh
-source ./moo-vm/scripts/windows/shareDrive.sh
-source ./moo-vm/scripts/windows/installSCripts.sh
+source ./moo-vm/scripts/windows/share_drive.sh
+source ./moo-vm/scripts/windows/install_scripts.sh
 
-# Verifica que wsl tiene acceso a internet
-function networkSetup() {
-  logInfo "Verificando Mirrored Networking"
+# Verify that wsl has internet access
+function network_setup() {
+  log_info "Verifying Mirrored Networking"
   
-  # Intentamos hacer un curl al localhost de Windows desde dentro de WSL
-  if $(runAsMoo "curl -s --connect-timeout 3 google.com > /dev/null"); then
-    logSuccess "WSL tiene salida a internet."
+  # Try to curl from WSL
+  if $(run_as_moo "curl -s --connect-timeout 3 google.com > /dev/null"); then
+    log_success "WSL has internet"
 
     return 0
   fi
 
-  logError "WSL no tiene salida a internet. Revisa el modo mirrored o tu Firewall"
+  log_error "WSL has not internet access. check your mirroring mode or your firewall settings"
   exit 0
 }
 
-# Hace la configuracion necesaria para el VM_USER
-function userSetup() {
-    logInfo "Configurando usuario '$VM_USER' en ${PROJECT_NAME}"
+# Generate the necessary settings for the VM_USER
+function user_setup() {
+    log_info "Configuring user '$VM_USER' in ${PROJECT_NAME}"
 
-    # 1. Verificamos si el usuario ya existe para evitar el error "already exists"
-    if $(runAsRoot "id "$VM_USER" >/dev/null 2>&1"); then
-        logSuccess "El usuario '$VM_USER' ya existe."
+    # We check if the user already exist to avoid the error
+    if $(run_as_root "id "$VM_USER" >/dev/null 2>&1"); then
+        log_success "the user '$VM_USER' already exist"
 
         return 0
     fi
 
-    logInfo "Creando el usuario '$VM_USER' dentro de la distro"
-    runAsRoot "useradd -m -G sudo -s //bin//bash $VM_USER"
+    log_info "Creating the user '$VM_USER' within the distro"
+    run_as_root "useradd -m -G sudo -s //bin//bash $VM_USER"
 
-    # Usamos // para la ruta del archivo de sudoers
-    logInfo "Configurando sudoers (NOPASSWD) para '$VM_USER'"
-    runAsRoot "echo '$VM_USER ALL=(ALL) NOPASSWD:ALL' > //etc//sudoers.d//$VM_USER"
+    # We use // for the sudoers file path
+    log_info "Configuring sudoers (NOPASSWD) para '$VM_USER'"
+    run_as_root "echo '$VM_USER ALL=(ALL) NOPASSWD:ALL' > //etc//sudoers.d//$VM_USER"
 
-    # Usamos printf para asegurar que el formato sea correcto y // para la ruta
-    logInfo "Configurando auto-login en //etc//wsl.conf"
-    runAsRoot "printf '[user]\ndefault=$VM_USER\n' > //etc//wsl.conf"
+    # We use printf to ensure the format is correct and // for the path
+    log_info "Configuring auto-login in //etc//wsl.conf"
+    run_as_root "printf '[user]\ndefault=$VM_USER\n' > //etc//wsl.conf"
 
-    # Limpiamos posibles retornos de carro de Windows (\r) para que Linux no se queje
-    runAsRoot "sed -i 's/\r$//' //etc//wsl.conf"
+    # We cleared up any Windows carriage returns (\r) so that Linux would not complain
+    run_as_root "sed -i 's/\r$//' //etc//wsl.conf"
 
-    logInfo "Habilitando Systemd en Ubuntu para el demonio de Docker"
-    runAsRoot "printf '[boot]\nsystemd=true\n' >> //etc//wsl.conf"
+    log_info "Enabling Systemmd in Ubuntu for the Docker daemon"
+    run_as_root "printf '[boot]\nsystemd=true\n' >> //etc//wsl.conf"
 
-    logSuccess "Usuario y auto-login configurados correctamente."
+    log_success "User and auto-login configured correctly"
 }
 
-# funcion para instalar todo lo necesario para Windows
-function windowsInstall() {
-  logInfo "Configurando entorno de Windows"
+# Method to install everything necessary for Windows
+function windows_install() {
+  log_info "Configuring the Windows environment"
 
-  # Vamos a verificar si WSL 2 esta instalado en windows
-  wsl2Setup
+  # Let's check if WSL2 is installed on Windows
+  wsl2_setup
 
-  # Vamos a configurar un usuario para ubunto.
-  userSetup
+  # Let's configure a user for Ubuntu.
+  user_setup
 
-  # Vamos a verificar si hay comunicacion entre windows y wsl
-  networkSetup
+  # We'll check if there's communication between Windows and WSL2
+  network_setup
 
-  # Vinculamos el moo-shared.vhdx para persistir informacion en caso de reinstalar o actualizar la vm.
-  shareDriveSetup
+  # We linked the moo-shared.vhdx file to persist information in case of reinstalling or updating the VM
+  share_drive_setup
 
-  # Instalando de scripts
-  installScripts
+  # Installing scripts
+  install_scripts
 
-  # Instalando de dockers
+  # We turned off WSL2 to prevent it from running in root mode
+  wsl2_shutdown
 
-  # Apagamos la WSL 2 para evitar que corra en modo root.
-  wsl2Shutdown
-
-  logSuccess "Instalacion de ${PROJECT_NAME} en WSL2 con exito"
+  log_success "Installation of ${PROJECT_NAME} in WSL2 successfully"
 }
 
-function windowsRun() {
-  logInfo "Ejecutando WSL 2 entorno para windows"
+function windows_run() {
+  log_info "Running WSL2 environment for Windows"
 
-  # Monta el share drive cada vez que se ejecuta la VM
-  shareDriveSetup
+  # Mount the share drive every time the VM runs
+  share_drive_setup
 
-  installScripts
+  install_scripts
 
-  # Arranca ${PROJECT_NAME} en WSL 2 para windows.
-  wsl2Run
+  # Boot ${PROJECT_NAME} in WSL2 for Windows
+  wsl2_run
 
 }
 
-function windowsShutdown() {
-  logInfo "Apagando entorno de WSL 2 para windows"
+function windows_shutdown() {
+  log_info "Shutting down WSL2 environment for Windows"
 
-  wsl2Shutdown
+  wsl2_shutdown
 }

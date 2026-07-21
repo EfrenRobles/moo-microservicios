@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Detener el script si algo falla
+# Stop the script if something goes wrong
 set -e
 
-# Variables globales solo para la instalacion.
+# Global variables for installation only.
 ROOT_FOLDER="~/"
 PROJECT_NAME="moo-ubuntu"
 ROOT_FOLDER_PROJECT=$ROOT_FOLDER"/$PROJECT_NAME"
